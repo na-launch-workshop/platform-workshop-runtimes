@@ -30,6 +30,8 @@ spec:
       metadata:
         generateName: springboot-build-deploy-
         namespace: {{ .Release.Namespace }}
+        labels:
+          backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
       spec:
         pipelineRef:
           name: springboot-build-deploy
@@ -45,8 +47,13 @@ spec:
             value: workshop-springboot-hello_by_lang
         workspaces:
           - name: source
-            persistentVolumeClaim:
-              claimName: pipeline-source
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 2Gi
 
 ---
 apiVersion: triggers.tekton.dev/v1beta1

@@ -38,3 +38,5 @@ spec:
         cpu: 250m
     storage:
       type: ephemeral
+  entityOperator:
+    topicOperator: {}

@@ -18,6 +18,8 @@ kind: TriggerTemplate
 metadata:
   name: springboot-template
   namespace: {{ .Release.Namespace }}
+  labels:
+    backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
 spec:
   params:
     - name: git-url

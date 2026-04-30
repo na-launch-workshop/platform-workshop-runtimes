@@ -118,6 +118,8 @@ spec:
         kind: Deployment
         metadata:
           name: ${APP_NAME}
+          labels:
+            backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
         spec:
           replicas: 1
           selector:
@@ -127,6 +129,7 @@ spec:
             metadata:
               labels:
                 app: ${APP_NAME}
+                backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
             spec:
               containers:
               - name: app
@@ -141,6 +144,8 @@ spec:
         kind: Service
         metadata:
           name: ${APP_NAME}
+          labels:
+            backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
         spec:
           selector:
             app: ${APP_NAME}
@@ -154,6 +159,8 @@ spec:
         kind: Route
         metadata:
           name: ${APP_NAME}
+          labels:
+            backstage.io/kubernetes-id: workshop-springboot-hello-by-lang
         spec:
           to:
             kind: Service

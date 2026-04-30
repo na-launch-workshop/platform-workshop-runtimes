@@ -19,6 +19,7 @@ spec:
       default.replication.factor: 1
       min.insync.replicas: 1
       auto.create.topics.enable: "true"
+      log.retention.ms: "-1"
     resources:
       requests:
         memory: 256Mi

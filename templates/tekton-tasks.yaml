@@ -111,20 +111,22 @@ spec:
         #!/usr/bin/env bash
         set -euxo pipefail
 
+        APP_NAME=$(echo "$(params.appName)" | tr '_' '-')
+
         cat <<EOF | oc apply -f -
         apiVersion: apps/v1
         kind: Deployment
         metadata:
-          name: $(params.appName)
+          name: ${APP_NAME}
         spec:
           replicas: 1
           selector:
             matchLabels:
-              app: $(params.appName)
+              app: ${APP_NAME}
           template:
             metadata:
               labels:
-                app: $(params.appName)
+                app: ${APP_NAME}
             spec:
               containers:
               - name: app
@@ -138,10 +140,10 @@ spec:
         apiVersion: v1
         kind: Service
         metadata:
-          name: $(params.appName)
+          name: ${APP_NAME}
         spec:
           selector:
-            app: $(params.appName)
+            app: ${APP_NAME}
           ports:
           - name: http
             port: $(params.port)
@@ -151,11 +153,11 @@ spec:
         apiVersion: route.openshift.io/v1
         kind: Route
         metadata:
-          name: $(params.appName)
+          name: ${APP_NAME}
         spec:
           to:
             kind: Service
-            name: $(params.appName)
+            name: ${APP_NAME}
           port:
             targetPort: http
           tls:
@@ -163,4 +165,4 @@ spec:
             insecureEdgeTerminationPolicy: Redirect
         EOF
 
-        oc rollout status deployment/$(params.appName) --timeout=5m
+        oc rollout status deployment/${APP_NAME} --timeout=5m

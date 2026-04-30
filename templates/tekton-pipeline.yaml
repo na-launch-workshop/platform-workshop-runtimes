@@ -1,0 +1,58 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: springboot-build-deploy
+  namespace: {{ .Release.Namespace }}
+spec:
+  params:
+    - name: git-url
+      type: string
+      description: Git repository URL
+    - name: git-revision
+      type: string
+      default: main
+      description: Branch or tag to build
+    - name: image
+      type: string
+      description: Fully qualified image reference
+    - name: appName
+      type: string
+      default: workshop-springboot-hello_by_lang
+      description: Application name for deployed resources
+  workspaces:
+    - name: source
+  tasks:
+    - name: maven-package
+      taskRef:
+        name: springboot-maven-package
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: $(params.git-revision)
+      workspaces:
+        - name: source
+          workspace: source
+
+    - name: build-image
+      taskRef:
+        name: springboot-build-image
+      runAfter:
+        - maven-package
+      params:
+        - name: image
+          value: $(params.image)
+      workspaces:
+        - name: source
+          workspace: source
+
+    - name: deploy-app
+      taskRef:
+        name: springboot-deploy-app
+      runAfter:
+        - build-image
+      params:
+        - name: appName
+          value: $(params.appName)
+        - name: image
+          value: $(params.image)

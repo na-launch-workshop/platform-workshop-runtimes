@@ -8,7 +8,7 @@ spec:
     - name: git-url
       value: $(body.project.http_url)
     - name: git-revision
-      value: $(body.ref)
+      value: main
     - name: namespace
       value: {{ .Release.Namespace }}
 

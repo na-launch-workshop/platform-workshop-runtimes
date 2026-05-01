@@ -1,6 +1,21 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
+  name: user-admin
+  namespace: {{ .Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: admin
+subjects:
+  - kind: User
+    name: {{ .Release.Namespace | trimSuffix "-devspaces" }}
+    apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
   name: pipeline-image-pusher
   namespace: {{ .Release.Namespace }}
 roleRef:

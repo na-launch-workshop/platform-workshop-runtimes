@@ -20,3 +20,4 @@ spec:
         topic: keda-events
         lagThreshold: "50"
         activationLagThreshold: "1"
+        offsetResetPolicy: "earliest"

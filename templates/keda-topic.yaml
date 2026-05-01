@@ -23,6 +23,6 @@ spec:
             - --topic
             - keda-events
             - --partitions
-            - "1"
+            - "5"
             - --replication-factor
             - "1"

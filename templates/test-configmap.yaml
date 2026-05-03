@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: workshop-test
-  namespace: {{ .Release.Namespace }}
-data:
-  status: "helm upgrade is working"

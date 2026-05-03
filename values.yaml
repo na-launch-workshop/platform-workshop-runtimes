@@ -1,3 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/minio/minio
+  tag: latest
+  pullPolicy: IfNotPresent
+
+minioArgs:
+  - server
+  - /data
+  - "--console-address"
+  - ":9001"
+
+env:
+  rootUser: admin
+  rootPassword: admin123
+
+service:
+  type: ClusterIP
+  ports:
+    api: 9000
+    console: 9001
+
 # Easy knobs for tuning
 resources: {}
 nodeSelector: {}

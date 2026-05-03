@@ -135,6 +135,9 @@ spec:
               - name: app
                 image: $(params.image)
                 imagePullPolicy: Always
+                env:
+                - name: SPRING_PROFILES_ACTIVE
+                  value: prod
                 ports:
                 - containerPort: $(params.port)
                   name: http

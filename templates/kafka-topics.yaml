@@ -18,7 +18,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              for TOPIC in package-receiver package-deliverer; do
+              for TOPIC in package-receiver translated-output; do
                 bin/kafka-topics.sh \
                   --bootstrap-server kafka-kafka-bootstrap.{{ .Release.Namespace }}.svc.cluster.local:9092 \
                   --create \

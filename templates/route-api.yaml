@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: minio-api
+  name: {{ include "minio.fullname" . }}-api
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "minio.labels" . | nindent 4 }}

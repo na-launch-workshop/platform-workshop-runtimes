@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-kafka-topics
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: create-topics
+          image: registry.redhat.io/amq-streams/kafka-39-rhel9@sha256:16750aebd590ccc992190ce8fd540cafd5ce2fb786162471367efc92d4d1255d
+          command:
+            - /bin/bash
+            - -c
+            - |
+              for TOPIC in package-receiver package-deliverer; do
+                bin/kafka-topics.sh \
+                  --bootstrap-server kafka-kafka-bootstrap.{{ .Release.Namespace }}.svc.cluster.local:9092 \
+                  --create \
+                  --if-not-exists \
+                  --topic "$TOPIC" \
+                  --partitions 1 \
+                  --replication-factor 1
+              done

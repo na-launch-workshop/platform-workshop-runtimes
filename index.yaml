@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  minio:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2026-07-02T03:22:25.255631024Z"
+    description: Openshift Resource deployment for the workshop-quarkus-using_camel
+      application
+    digest: d9a3ab16ef7c3d2f24f14bd1b232d2eaf6b050796727b8e3a0c570691407987a
+    name: minio
+    type: application
+    urls:
+    - https://na-launch-workshop.github.io/platform-workshop-runtimes/minio-0.1.0.tgz
+    version: 0.1.0
+generated: "2026-07-02T03:22:25.254486734Z"

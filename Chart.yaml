@@ -1,6 +1,15 @@
 apiVersion: v2
-name: minio
-description: Openshift Resource deployment for the workshop-quarkus-using_camel application
+name: workshop-runtimes
+description: Complete runtime stack for workshop environments - deploys MinIO, Kafka, Tekton, and KEDA resources into user-devspaces namespaces
 type: application
 version: 0.1.0
 appVersion: "latest"
+keywords:
+  - workshop
+  - openshift
+  - kafka
+  - minio
+  - tekton
+  - keda
+maintainers:
+  - name: Phillip Knezevich, Parth Ghetia, Michael Wilson, Kevin Chung

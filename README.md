@@ -27,15 +27,33 @@ This chart provisions the following resources:
 
 ### Installation
 
-Deploy the chart to a user's namespace:
+#### Option 1: Using the Published Helm Repository (Recommended)
+
+First, add the workshop Helm repository to your OpenShift cluster:
 
 ```bash
-helm install <release-name> . -n <user>-devspaces
+oc apply -f https://raw.githubusercontent.com/na-launch-workshop/platform-workshop-runtimes/master/install.yaml
+```
+
+Then install the chart to a user's namespace:
+
+```bash
+helm install <release-name> workshop-charts/workshop-runtimes -n <user>-devspaces
 ```
 
 For example:
 ```bash
-helm install runtimes . -n alice-devspaces
+helm install runtimes workshop-charts/workshop-runtimes -n alice-devspaces
+```
+
+#### Option 2: Install Directly from Source
+
+Clone the repository and deploy the chart:
+
+```bash
+git clone https://github.com/na-launch-workshop/platform-workshop-runtimes.git
+cd platform-workshop-runtimes
+helm install <release-name> . -n <user>-devspaces
 ```
 
 ### Upgrade
@@ -43,6 +61,10 @@ helm install runtimes . -n alice-devspaces
 Update an existing deployment:
 
 ```bash
+# From the published repository
+helm upgrade <release-name> workshop-charts/workshop-runtimes -n <user>-devspaces
+
+# Or from local source
 helm upgrade <release-name> . -n <user>-devspaces
 ```
 
@@ -129,6 +151,16 @@ Automated triggers respond to git webhooks and start pipelines automatically:
     └── PersistentVolumeClaims
 ```
 
+## Publishing
+
+This chart is automatically published to GitHub Pages on every push to the `master` branch via GitHub Actions. The workflow:
+
+1. Packages the Helm chart
+2. Generates the Helm repository index
+3. Publishes to `https://na-launch-workshop.github.io/platform-workshop-runtimes`
+
+Users can then install via the HelmChartRepository CR in `install.yaml`.
+
 ## Development
 
 ### Chart Structure
@@ -137,15 +169,19 @@ Automated triggers respond to git webhooks and start pipelines automatically:
 .
 ├── Chart.yaml              # Chart metadata
 ├── values.yaml             # Default configuration values
-└── templates/              # Kubernetes resource templates
-    ├── deployment.yaml     # MinIO deployment
-    ├── service.yaml        # MinIO services
-    ├── route-*.yaml        # OpenShift routes
-    ├── kafka.yaml          # Kafka cluster
-    ├── kafka-topics.yaml   # Topic definitions
-    ├── kafka-ui.yaml       # Kafka UI
-    ├── keda-*.yaml         # KEDA autoscaling
-    └── tekton-*.yaml       # CI/CD pipelines
+├── install.yaml            # HelmChartRepository CR for OpenShift
+├── templates/              # Kubernetes resource templates
+│   ├── deployment.yaml     # MinIO deployment
+│   ├── service.yaml        # MinIO services
+│   ├── route-*.yaml        # OpenShift routes
+│   ├── kafka.yaml          # Kafka cluster
+│   ├── kafka-topics.yaml   # Topic definitions
+│   ├── kafka-ui.yaml       # Kafka UI
+│   ├── keda-*.yaml         # KEDA autoscaling
+│   └── tekton-*.yaml       # CI/CD pipelines
+└── .github/
+    └── workflows/
+        └── helm-release.yaml  # Auto-publish workflow
 ```
 
 ### Testing Changes
@@ -154,6 +190,7 @@ Automated triggers respond to git webhooks and start pipelines automatically:
 2. Validate with `helm template . --debug`
 3. Test deployment in a dev namespace
 4. Verify resources are created: `oc get all -n <namespace>`
+5. Push to `master` to trigger automatic publishing to the Helm repository
 
 ## Common Tasks
 

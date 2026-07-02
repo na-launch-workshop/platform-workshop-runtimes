@@ -1,3 +1,49 @@
+# ============================================================================
+# Resource Management
+# Adjust based on cluster capacity and workshop requirements
+# ============================================================================
+
+resources: {}
+  # Example resource limits:
+  # limits:
+  #   cpu: 500m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 250m
+  #   memory: 256Mi
+
+# ============================================================================
+# Pod Placement
+# Configure where workshop resources should be scheduled
+# ============================================================================
+
+nodeSelector: {}
+  # Example: schedule on specific nodes
+  # workshop: "true"
+
+tolerations: []
+  # Example: tolerate workshop node taints
+  # - key: "workshop"
+  #   operator: "Equal"
+  #   value: "true"
+  #   effect: "NoSchedule"
+
+affinity: {}
+  # Example: prefer spreading across nodes
+  # podAntiAffinity:
+  #   preferredDuringSchedulingIgnoredDuringExecution:
+  #   - weight: 100
+  #     podAffinityTerm:
+  #       topologyKey: kubernetes.io/hostname
+
+
+#----------------------------------------------------------------------------
+
+# ============================================================================
+# MinIO Configuration
+# S3-compatible object storage for workshop exercises
+# ============================================================================
+
 replicaCount: 1
 
 image:
@@ -5,24 +51,21 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+# MinIO server arguments
 minioArgs:
   - server
-  - /data
+  - /data                    # Data directory (ephemeral for workshops)
   - "--console-address"
-  - ":9001"
+  - ":9001"                  # Web console port
 
+# MinIO credentials (change for production use)
 env:
   rootUser: admin
   rootPassword: admin123
 
+# MinIO service configuration
 service:
   type: ClusterIP
   ports:
-    api: 9000
-    console: 9001
-
-# Easy knobs for tuning
-resources: {}
-nodeSelector: {}
-tolerations: []
-affinity: {}
+    api: 9000                # S3 API endpoint
+    console: 9001            # Web console UI

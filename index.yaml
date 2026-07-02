@@ -1,15 +1,24 @@
 apiVersion: v1
 entries:
-  minio:
+  workshop-runtimes:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-07-02T03:22:25.255631024Z"
-    description: Openshift Resource deployment for the workshop-quarkus-using_camel
-      application
-    digest: d9a3ab16ef7c3d2f24f14bd1b232d2eaf6b050796727b8e3a0c570691407987a
-    name: minio
+    created: "2026-07-02T03:42:03.48094843Z"
+    description: Complete runtime stack for workshop environments - deploys MinIO,
+      Kafka, Tekton, and KEDA resources into user-devspaces namespaces
+    digest: 047e9b405e4a3f0bd5864f6b1fbd60e56b40e279782102c07f7b5b0b7dbb17d3
+    keywords:
+    - workshop
+    - openshift
+    - kafka
+    - minio
+    - tekton
+    - keda
+    maintainers:
+    - name: Phillip Knezevich, Parth Ghetia, Michael Wilson, Kevin Chung
+    name: workshop-runtimes
     type: application
     urls:
-    - https://na-launch-workshop.github.io/platform-workshop-runtimes/minio-0.1.0.tgz
+    - https://na-launch-workshop.github.io/platform-workshop-runtimes/workshop-runtimes-0.1.0.tgz
     version: 0.1.0
-generated: "2026-07-02T03:22:25.254486734Z"
+generated: "2026-07-02T03:42:03.479558021Z"

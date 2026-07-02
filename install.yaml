@@ -1,9 +1,9 @@
 apiVersion: helm.openshift.io/v1beta1
 kind: HelmChartRepository
 metadata:
-  name: workshop-charts
+  name: launchlabs-workshop-charts
 spec:
-  name: workshop-charts
+  name: launchlabs-workshop-charts
   description: Helm resources for launch team workshop
   connectionConfig:
     url: https://na-launch-workshop.github.io/platform-workshop-runtimes
